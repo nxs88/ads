@@ -1,4 +1,4 @@
-import { refreshRequest } from '@shared/auth/refresh';
+import { refreshAccessToken } from '@shared/auth/refresh';
 import { AxiosError } from 'axios';
 
 export const baseQuery = async <T>(queryFn: () => Promise<T>): Promise<T> => {
@@ -11,7 +11,7 @@ export const baseQuery = async <T>(queryFn: () => Promise<T>): Promise<T> => {
       throw error;
     }
 
-    await refreshRequest();
+    await refreshAccessToken();
     return await queryFn();
   }
 };

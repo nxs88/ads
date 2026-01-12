@@ -8,7 +8,7 @@ interface AuthRequestBody {
 }
 
 export const authHandler = [
-  // LOGIN
+  // LOGIN реальный бэкенд
   http.post('/api/login', async ({ request }) => {
     const { email, password } = (await request.json()) as AuthRequestBody;
 
@@ -37,7 +37,7 @@ export const authHandler = [
     }
   }),
 
-  // REGISTER
+  // REGISTER реальный бэкенд
   http.post('/api/register', async ({ request }) => {
     const { email, password } = (await request.json()) as AuthRequestBody;
 
@@ -51,7 +51,10 @@ export const authHandler = [
         },
         {
           headers: {
-            'Set-Cookie': `refreshToken=${result.refreshToken}; HttpOnly; Path=/; SameSite=Lax`,
+            'Set-Cookie': [
+              `refreshToken=${result.refreshToken}; HttpOnly; Path=/; SameSite=Lax`,
+              `csrfToken=${result.csrfToken}; Path=/; SameSite=Lax`,
+            ].join(', '),
           },
         }
       );
@@ -63,7 +66,7 @@ export const authHandler = [
     }
   }),
 
-  // REFRESH
+  // REFRESH реальный бэкенд
   http.post('/api/refresh', ({ request }) => {
     const cookie = request.headers.get('cookie') ?? '';
     const refreshToken = cookie

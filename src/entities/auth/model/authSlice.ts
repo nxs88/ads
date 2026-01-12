@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { apiClient } from '@shared/api/apiClient';
 
 export interface User {
   id: string;
@@ -22,10 +23,12 @@ const authSlice = createSlice({
     setAuth(state, action: PayloadAction<{ user: User; accessToken: string }>) {
       state.user = action.payload.user;
       state.accessToken = action.payload.accessToken;
+      apiClient.defaults.headers.common.Authorization = `Bearer ${action.payload.accessToken}`;
     },
     logout(state) {
       state.user = null;
       state.accessToken = null;
+      delete apiClient.defaults.headers.common.Authorization;
     },
   },
 });

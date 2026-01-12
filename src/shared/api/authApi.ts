@@ -13,6 +13,8 @@ export const authApi = {
     return apiClient.post<AuthResponse>('/register', { email, password });
   },
   refresh() {
-    return apiClient.get<{ accessToken: string }>('/refresh');
+    return apiClient.get<{ accessToken: string }>('/refresh', {
+      withCredentials: true,
+    });
   },
 };

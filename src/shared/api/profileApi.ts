@@ -7,6 +7,8 @@ export interface Profile {
 }
 
 export const getProfile = async () => {
-  const { data } = await apiClient.get<Profile>('/profile');
+  const { data } = await apiClient.get<Profile>('/profile', {
+    withCredentials: true,
+  });
   return data;
 };
